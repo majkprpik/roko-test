@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using roko_test;
+using roko_test.Data;
 
 #nullable disable
 
 namespace roko_test.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230526084335_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230609102910_InitialAddUser")]
+    partial class InitialAddUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
