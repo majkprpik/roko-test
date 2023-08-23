@@ -10,7 +10,7 @@ public static class DefaultSeeds
 
     public static async Task<bool> SeedAsync(DataContext dataContext)
     {
-        // add clubs
+       /*  // add clubs
         string clubsJSON = File.ReadAllText(@"Seed" + Path.DirectorySeparatorChar + "Data" + Path.DirectorySeparatorChar + Path.DirectorySeparatorChar + "clubs.json");
         List<Club> clubsList = JsonConvert.DeserializeObject<List<Club>>(clubsJSON);
         dataContext.Clubs.AddRange(clubsList);
@@ -20,7 +20,8 @@ public static class DefaultSeeds
         // add players
         string playersJSON = File.ReadAllText(@"Seed" + Path.DirectorySeparatorChar + "Data" + Path.DirectorySeparatorChar + Path.DirectorySeparatorChar + "players.json");
         List<Player> playersList = JsonConvert.DeserializeObject<List<Player>>(playersJSON);
-        
+
+      
         int i = 20;
         foreach (var player in playersList)
         {
@@ -28,6 +29,13 @@ public static class DefaultSeeds
             dataContext.Add(player);
             dataContext.Entry(player).Property("ClubId").CurrentValue = ++i;
         }
+
+        await dataContext.SaveChangesAsync(); */
+
+          //add tornaments
+        string tournamentsJSON = File.ReadAllText(@"Seed" + Path.DirectorySeparatorChar + "Data" + Path.DirectorySeparatorChar + Path.DirectorySeparatorChar + "tournaments.json");
+        List<Tournament> torunamentsList = JsonConvert.DeserializeObject<List<Tournament>>(tournamentsJSON);
+        dataContext.Tournaments.AddRange(torunamentsList);
 
         await dataContext.SaveChangesAsync();
         

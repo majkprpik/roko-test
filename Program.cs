@@ -23,15 +23,15 @@ if (!app.Environment.IsDevelopment())
 }
 
 // Default database seeding
-// using (var scope = app.Services.CreateScope())
-// {
-//     var services = scope.ServiceProvider;
-//     DataContext context = services.GetRequiredService<DataContext>();
+/* using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    DataContext context = services.GetRequiredService<DataContext>();
 
-//     await DefaultSeeds.SeedAsync(context);
+    await DefaultSeeds.SeedAsync(context);
 
-//     await context.DisposeAsync();
-// }
+    await context.DisposeAsync();
+} */
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "roko_test"
+  "defaultProject": "roko_test",
+  "cli": {
+    "analytics": "7943eaaf-2264-453f-b8a6-9df87697d534"
+  }
 }

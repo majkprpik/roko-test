@@ -25,12 +25,19 @@ public class PlayerController : ControllerBase
              .FirstOrDefaultAsync();
 
         var playerDto = new PlayerDto();
-        playerDto.FirstName = player.FirstName;
-        playerDto.LastName = player.LastName;
+        if (player == null)
+        {
+            return null; // Return a 404 Not Found response if the player is not found
+        }
+        else
+        {
+            playerDto.FirstName = player.FirstName;
+            playerDto.LastName = player.LastName;
 
-        return playerDto;
+            return playerDto;
+        }
     }
-    
+
     // [HttpPost]
     // public async Task<bool> Post([FromBody] CreateUser userFromApi)
     // {
