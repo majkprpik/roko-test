@@ -10,8 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddControllersWithViews();
 
+
     services.AddDbContext<DataContext>();
+
+
+    services.AddControllersWithViews()
+        .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerGen();
+
+    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 }
+
 
 var app = builder.Build();
 
@@ -22,22 +33,25 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 // Default database seeding
-/* using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    DataContext context = services.GetRequiredService<DataContext>();
+// using (var scope = app.Services.CreateScope())
+// {
+//     var services = scope.ServiceProvider;
+//     DataContext context = services.GetRequiredService<DataContext>();
 
-    await DefaultSeeds.SeedAsync(context);
+//     await DefaultSeeds.SeedAsync(context);
 
-    await context.DisposeAsync();
-} */
+//     await context.DisposeAsync();
+// }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
