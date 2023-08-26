@@ -131,12 +131,12 @@ namespace roko_test.Migrations
                 table: "ClubTournament",
                 column: "TournamentsId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Events_Games_GameId",
-                table: "Events",
-                column: "GameId",
-                principalTable: "Games",
-                principalColumn: "Id");
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_Events_Games_GameId",
+            //     table: "Events",
+            //     column: "GameId",
+            //     principalTable: "Games",
+            //     principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Events_Players_Player_OneId",
@@ -250,10 +250,10 @@ namespace roko_test.Migrations
                 table: "Event",
                 newName: "IX_Event_Player_OneId");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_Events_GameId",
-                table: "Event",
-                newName: "IX_Event_GameId");
+            // migrationBuilder.RenameIndex(
+            //     name: "IX_Events_GameId",
+            //     table: "Event",
+            //     newName: "IX_Event_GameId");
 
             migrationBuilder.AddColumn<int>(
                 name: "TournamentId",
@@ -283,12 +283,12 @@ namespace roko_test.Migrations
                 principalTable: "Tournaments",
                 principalColumn: "Id");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Event_Game_GameId",
-                table: "Event",
-                column: "GameId",
-                principalTable: "Game",
-                principalColumn: "Id");
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_Event_Game_GameId",
+            //     table: "Event",
+            //     column: "GameId",
+            //     principalTable: "Game",
+            //     principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Event_Players_Player_OneId",

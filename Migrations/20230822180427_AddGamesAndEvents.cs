@@ -55,16 +55,16 @@ namespace roko_test.Migrations
                     Player_OneId = table.Column<int>(type: "integer", nullable: false),
                     Player_TwoId = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
-                    GameId = table.Column<int>(type: "integer", nullable: true)
+                    // GameId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Event", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Event_Game_GameId",
-                        column: x => x.GameId,
-                        principalTable: "Game",
-                        principalColumn: "Id");
+                    // table.ForeignKey(
+                    //     name: "FK_Event_Game_GameId",
+                    //     column: x => x.GameId,
+                    //     principalTable: "Game",
+                    //     principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Event_Players_Player_OneId",
                         column: x => x.Player_OneId,
@@ -79,10 +79,10 @@ namespace roko_test.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Event_GameId",
-                table: "Event",
-                column: "GameId");
+            // migrationBuilder.CreateIndex(
+            //     name: "IX_Event_GameId",
+            //     table: "Event",
+            //     column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Event_Player_OneId",

@@ -12,8 +12,8 @@ using roko_test.Data;
 namespace roko_test.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230822180427_AddGamesAndEvents")]
-    partial class AddGamesAndEvents
+    [Migration("20230824145053_MolimTeRadi")]
+    partial class MolimTeRadi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace roko_test.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ClubTournament", b =>
+                {
+                    b.Property<int>("ClubsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TournamentsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ClubsId", "TournamentsId");
+
+                    b.HasIndex("TournamentsId");
+
+                    b.ToTable("ClubTournament");
+                });
 
             modelBuilder.Entity("roko_test.Entities.Club", b =>
                 {
@@ -41,12 +56,7 @@ namespace roko_test.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("TournamentId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TournamentId");
 
                     b.ToTable("Clubs");
                 });
@@ -59,8 +69,8 @@ namespace roko_test.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    // b.Property<int?>("GameId")
-                    //     .HasColumnType("integer");
+                    b.Property<int?>("GameId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Player_OneId")
                         .HasColumnType("integer");
@@ -73,13 +83,13 @@ namespace roko_test.Migrations
 
                     b.HasKey("Id");
 
-                    // b.HasIndex("GameId");
+                    b.HasIndex("GameId");
 
                     b.HasIndex("Player_OneId");
 
                     b.HasIndex("Player_TwoId");
 
-                    b.ToTable("Event");
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("roko_test.Entities.Game", b =>
@@ -113,7 +123,7 @@ namespace roko_test.Migrations
 
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("Game");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("roko_test.Entities.Player", b =>
@@ -165,18 +175,26 @@ namespace roko_test.Migrations
                     b.ToTable("Tournaments");
                 });
 
-            modelBuilder.Entity("roko_test.Entities.Club", b =>
+            modelBuilder.Entity("ClubTournament", b =>
                 {
+                    b.HasOne("roko_test.Entities.Club", null)
+                        .WithMany()
+                        .HasForeignKey("ClubsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("roko_test.Entities.Tournament", null)
-                        .WithMany("Clubs")
-                        .HasForeignKey("TournamentId");
+                        .WithMany()
+                        .HasForeignKey("TournamentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("roko_test.Entities.Event", b =>
                 {
-                    // b.HasOne("roko_test.Entities.Game", null)
-                    //     .WithMany("Events")
-                    //     .HasForeignKey("GameId");
+                    b.HasOne("roko_test.Entities.Game", null)
+                        .WithMany("Events")
+                        .HasForeignKey("GameId");
 
                     b.HasOne("roko_test.Entities.Player", "Player_One")
                         .WithMany()
@@ -245,8 +263,6 @@ namespace roko_test.Migrations
 
             modelBuilder.Entity("roko_test.Entities.Tournament", b =>
                 {
-                    b.Navigation("Clubs");
-
                     b.Navigation("Games");
                 });
 #pragma warning restore 612, 618

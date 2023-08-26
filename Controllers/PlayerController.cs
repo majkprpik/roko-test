@@ -24,16 +24,13 @@ public class PlayerController : ControllerBase
              .Where(u => u.Id == id)
              .FirstOrDefaultAsync();
 
-        var playerDto = new PlayerDto();
+        var playerDto = new PlayerDto(player.FirstName, player.LastName);
         if (player == null)
         {
             return null; // Return a 404 Not Found response if the player is not found
         }
         else
         {
-            playerDto.FirstName = player.FirstName;
-            playerDto.LastName = player.LastName;
-
             return playerDto;
         }
     }

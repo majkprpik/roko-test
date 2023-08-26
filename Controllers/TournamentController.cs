@@ -37,8 +37,41 @@ public class TournamentController : ControllerBase
 
         return TournamentDtos;
     }
+    // [HttpGet("{id}")]
+    // public async Task<Tournament> GetTournamentInfo(int id)
+    // {
+    //     var tournament = await _context.Tournaments
+    //         .Include(t => t.Clubs)
+    //         .ThenInclude(c => c.Players)
+    //         .FirstOrDefaultAsync(c => c.Id == id);
+
+    //     //var clubsOnTournament = await _context.Clubs.Where(c => c.Id == id).ToListAsync();
+
+    //     if (tournament == null)
+    //     {
+    //         return null;
+
+    //     }
+
+    //     var clubsInTournament = tournament.Clubs.ToList();
+    //     foreach (var club in clubsInTournament)
+    //     {
+    //         var playersInClub = club.Players.ToList();
+    //     }
+
+    //     var Tournament = new Tournament
+    //     {
+    //         Id = id,
+    //         Name = tournament.Name,
+    //         Date = tournament.Date,
+    //         Clubs = clubsInTournament
+    //     };
+
+    //     return Tournament;
+    // }
+
     [HttpGet("{id}")]
-    public async Task<Tournament> GetTournamentInfo(int id)
+    public async Task<TournamentDTO2> GetTournamentInfoDTO(int id)
     {
         var tournament = await _context.Tournaments
             .Include(t => t.Clubs)
@@ -54,17 +87,30 @@ public class TournamentController : ControllerBase
         }
 
         var clubsInTournament = tournament.Clubs.ToList();
+        var clubsInTournamentDTO = new List<ClubDto>();
         foreach (var club in clubsInTournament)
         {
+            var clubDTO = new ClubDto();
+            clubDTO.City = club.City;
+            clubDTO.Name = club.Name;
             var playersInClub = club.Players.ToList();
+            var playersInClubDTO = new List<PlayerDto>();
+            foreach (var player in playersInClub)
+            {
+                var PlayerDto = new PlayerDto(player.FirstName, player.LastName);
+                playersInClubDTO.Add(PlayerDto);
+            }
+            clubDTO.Players = playersInClubDTO;
+            clubsInTournamentDTO.Add(clubDTO);
+            
         }
 
-        var Tournament = new Tournament
+        var Tournament = new TournamentDTO2
         {
             Id = id,
             Name = tournament.Name,
             Date = tournament.Date,
-            Clubs = clubsInTournament
+            Clubs = clubsInTournamentDTO
         };
 
         return Tournament;
