@@ -21,17 +21,58 @@ namespace roko_test.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Club>> Get()
+        public async Task<IEnumerable<ClubStatDto>> Get()
         {
             var clubs = await _context.Clubs.ToListAsync();
+            var games = await _context.Games.ToListAsync();
+            var clubsDto = new List<ClubStatDto>();
 
-            var clubDtos = clubs.Select(club => new Club
+            // var clubDtos = clubs.Select(club => new ClubStatDto
+            // {
+            //     Name = club.Name,
+
+            // }).ToList();
+            foreach (var club in clubs)
             {
-                Name = club.Name,
-                City = club.City
-            }).ToList();
-
-            return clubDtos;
+                var clubDto = new ClubStatDto();
+                clubDto.Name = club.Name;
+                int win = 0;
+                int draw = 0;
+                int loss = 0;
+                var selectedGames = games.Where(a => a.Club_Away == club || a.Club_Home == club);
+                foreach(var game in selectedGames){
+                    if(game.Club_Away == club){
+                        if(game.Club_Away_Score > game.Club_Home_Score){
+                            win++;
+                        }
+                        else if(game.Club_Away_Score == game.Club_Home_Score){
+                            draw++;
+                        }
+                        else{
+                            loss++;
+                        }
+                    }
+                    else if(game.Club_Home == club){
+                        if(game.Club_Away_Score < game.Club_Home_Score){
+                            win++;
+                        }
+                        else if(game.Club_Away_Score == game.Club_Home_Score){
+                            draw++;
+                        }
+                        else{
+                            loss++;
+                        }
+                    }
+                }
+                clubDto.Win=win;
+                clubDto.Draw=draw;
+                clubDto.Loss=loss;
+                clubsDto.Add(clubDto);
+            }
+            
+            return clubsDto
+                .OrderByDescending(a => a.Win)
+                .ThenByDescending(b => b.Draw);
         }
 
         [HttpGet("{id}")]
